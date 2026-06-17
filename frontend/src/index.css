@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@400;600;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS Custom Properties ─────────────────────────── */
+:root {
+  --bg-primary:   #010409;
+  --bg-panel:     #0b1120;
+  --bg-card:      rgba(11,17,32,0.65);
+  --accent-cyan:  #00f2ff;
+  --accent-red:   #ff0055;
+  --accent-green: #00ff9d;
+  --accent-amber: #ffaa00;
+  --border-glass: rgba(0,242,255,0.10);
+  --border-dim:   rgba(0,242,255,0.05);
+  --text-primary: #e2e8f0;
+  --text-secondary:#8da0b8;
+  --text-muted:   #3d5a7a;
+  --text-data:    #00f2ff;
+}
+
+[data-theme="light"] {
+  --bg-primary:   #edf2f7;
+  --bg-panel:     #f7fafc;
+  --bg-card:      rgba(247,250,252,0.85);
+  --accent-cyan:  #0077a8;
+  --accent-red:   #c0004a;
+  --accent-green: #00875a;
+  --accent-amber: #b37700;
+  --border-glass: rgba(0,100,160,0.18);
+  --border-dim:   rgba(0,100,160,0.08);
+  --text-primary: #1a202c;
+  --text-secondary:#4a5568;
+  --text-muted:   #a0aec0;
+  --text-data:    #0077a8;
+}
+
+/* ─── Base ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Glassmorphism ────────────────────────────────────── */
+@layer utilities {
+  .glass {
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-glass);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(0,242,255,0.06);
+  }
+
+  .glass-sm {
+    background: rgba(11,17,32,0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border-dim);
+  }
+
+  .glass-inset {
+    background: rgba(0,242,255,0.04);
+    border: 1px solid var(--border-glass);
+  }
+
+  .glow-cyan  { box-shadow: 0 0 16px rgba(0,242,255,0.35), 0 0 48px rgba(0,242,255,0.12); }
+  .glow-red   { box-shadow: 0 0 16px rgba(255,0,85,0.45),  0 0 40px rgba(255,0,85,0.15);  }
+  .glow-green { box-shadow: 0 0 16px rgba(0,255,157,0.35), 0 0 40px rgba(0,255,157,0.1);  }
+  .glow-amber { box-shadow: 0 0 16px rgba(255,170,0,0.35); }
+
+  .text-data { font-family: 'JetBrains Mono', monospace; color: var(--text-data); }
+  .text-orb  { font-family: 'Orbitron', monospace; }
+
+  .border-cyan  { border-color: rgba(0,242,255,0.25); }
+  .border-red   { border-color: rgba(255,0,85,0.35); }
+  .border-green { border-color: rgba(0,255,157,0.25); }
+
+  .enter-up   { animation: enterUp   0.4s ease forwards; }
+  .enter-fade { animation: enterFade 0.5s ease forwards; }
+  .stream-in  { animation: streamIn  0.3s ease forwards; }
+}
+
+/* ─── Scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #010409; }
+::-webkit-scrollbar-thumb { background: rgba(0,242,255,0.2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,242,255,0.4); }
+
+/* ─── Leaflet overrides ────────────────────────────────── */
+.leaflet-container { background: #010409 !important; }
+
+/* ─── Targeting reticle ────────────────────────────────── */
+.reticle {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px; height: 72px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ─── Bounding box simulation ──────────────────────────── */
+.detection-box {
+  position: absolute;
+  border: 1.5px solid #ff0055;
+  box-shadow: 0 0 8px rgba(255,0,85,0.6), inset 0 0 8px rgba(255,0,85,0.06);
+}
+.detection-box-green {
+  position: absolute;
+  border: 1.5px solid #00ff9d;
+  box-shadow: 0 0 8px rgba(0,255,157,0.5);
+}
+
+/* ─── Animations ───────────────────────────────────────── */
+@keyframes enterUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes enterFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes streamIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}
+@keyframes glowPulse {
+  0%,100% { box-shadow: 0 0 6px rgba(0,242,255,0.4); }
+  50%     { box-shadow: 0 0 20px rgba(0,242,255,0.9), 0 0 40px rgba(0,242,255,0.3); }
+}
+@keyframes redPulse {
+  0%,100% { box-shadow: 0 0 6px rgba(255,0,85,0.5); }
+  50%     { box-shadow: 0 0 20px rgba(255,0,85,0.9), 0 0 40px rgba(255,0,85,0.3); }
+}
+@keyframes live-blink {
+  0%,100% { opacity: 1; }
+  50%     { opacity: 0.2; }
+}
+
+.live-blink { animation: live-blink 1.4s ease-in-out infinite; }
+.glow-pulse-anim { animation: glowPulse 2.5s ease-in-out infinite; }
+.red-pulse-anim  { animation: redPulse  2s   ease-in-out infinite; }
+
+@keyframes scanLine {
+  from { top: 0%; }
+  to   { top: 100%; }
+}
+
+/* Vessel map marker pulse ring */
+@keyframes ringPulse {
+  0%   { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
+
+/* Leaflet map dark overrides */
+.leaflet-control-attribution { display: none !important; }
+.leaflet-tile-pane { filter: brightness(0.85) saturate(0.9); }
